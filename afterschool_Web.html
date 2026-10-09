@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
     <head>
         <title>After School Website</title>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
@@ -8,133 +9,41 @@
         <div id="app">
             <header>
                 <h1 v-text="sitename"></h1>
-                <button v-on:click="showCheckout">
-                    {{ cartItemCount }}
-                    <span class="fas fa-cart-plus"></span>Checkout
-                </button>
             </header>
             <main>
-                <div v-if="showProduct">
-                    <img v-bind:src="product.image">
-                    <h1 v-text="product.title"></h1>
-                    <p> Price: AED {{ product.price }}</p>
-                    <p>Available in stock: {{ product.availableInventory }}</p>
-                    <button v-on:click="addToCart" v-if="canAddToCart">
-                        Add to cart
-                    </button>
-                    <button disabled="disable" v-else>
-                        Add to cart
-                    </button> 
-                </div>
-                <div v-else>
-                    <h2>Checkout</h2>
-                    <p>
-                        <strong>First Name: </strong>
-                        <input v-model.trim="order.firstName"/>
-                    </p>
-                    <p>
-                        <strong>Last Name: </strong>
-                        <input v-model="order.lastName"/>
-                    </p>
-                    <p>
-                        <strong>Address: </strong>
-                        <input v-model="order.address"/>
-                    </p>
-                    <p>
-                        <strong>City: </strong>
-                        <input v-model="order.city"/>
-                    </p>
-                    <p>
-                        <strong>State: </strong>
-                        <input v-model="order.state"/>
-                        <select v-model="order.state" class="form-control">
-                            <option disabled value="">State</option>
-                            <option v-bind:value="states.AL">AL</option>
-                            <option v-bind:value="states.AR">AR</option>
-                            <option v-bind:value="states.CA">CA</option>
-                            <option v-bind:value="states.NV">NV</option>
-                        </select>
-                    </p>
-                    <p>
-                        <strong>ZIP / Postal Code: </strong>
-                        <input v-model.number="order.postalCode" type="number"/>
-                    </p>
-                    <p>
-                        <input type="checkbox" id="gift" value="true" v-model="order.gift" v-bind:true-value="order.sendGift" v-bind:false-value="order.dontSendGift">
-                        <label for="gift">Ship as Gift? </label>
-                    </p>
-                    <p>
-                        <input type="radio" id="home" value="Home" v-model="order.method">
-                        <label for="home">Home</label>
-                    </p>
-                    <p>
-                        <input type="radio" id="business" value="Business" v-model="order.method">
-                        <label for="business">Business</label>
-                    </p>
-
-                    <button v-on:click="submitForm">Place Order</button>
-
-                    <h2>Order Information</h2>
-                    <p>First Name: {{order.firstName}} </p>
-                    <p>Last Name: {{order.lastName}} </p>
-                    <p>Address: {{order.address}} </p>
-                    <p>City: {{order.city}} </p>
-                    <p>State: {{order.state}} </p>
-                    <p>ZIP / Postal Code: {{order.postalCode}} </p>
-                    <p>gift: {{order.gift}} </p>
-                    <p>method: {{order.method}} </p>
-
-                </div>
+                    <figure v-for="x in activity" v-bind:key="x.id">
+                        <img v-bind:src="x.image">
+                        <h2>{{x.class}}</h2>
+                        <p>Price: AED {{x.price}}</p>
+                        <p>Available Inventory: {{x.availableInventory}}</p>
+                        <button v-on:click="cart.push(x)" v-if="x.availableInventory > 0">
+                            Add to cart
+                        </button>
+                        <button disabled="disabled" v-else>
+                            Add to cart
+                        </button> 
+                    </figure>
             </main>
         </div>
         <script type="text/javascript">
             let webstore = new Vue({
                 el: '#app',
                 data: {
-                    showProduct: true,
-                    order: {
-                        firstName: "",
-                        lastName: "",
-                        address: "",
-                        city: "",
-                        State: "",
-                        postalCode: "",
-                        method: "Home",
-                        gift: false,
-                        sendGift: "Send as a gift",
-                        dontSendGift: "Do not send as a gift"
-                    },
-                    states: {
-                        AL: "Alabama",
-                        AR: "Arizona",
-                        CA: "California",
-                        NV: "Nevada"
-                    },
                     sitename: 'Afterschool Activities',
-                    product: {
-                        id: 1001,
-                        title: 'Football',
-                        price: 100,
-                        image: 'images/football.jpg',
-                        availableInventory: 5
-                    },
-                    cart: []
-                },
-                methods: {
-                    addToCart: function() {
-                        this.cart.push(this.product.id);
-                    },
-                    showCheckout() {
-                        this.showProduct = this.showProduct ? false:true;
-                    }
-                },
-                computed: {
-                    cartItemCount: function() {
-                        return this.cart.length ||"";
-                    },
-                    canAddToCart: function() {
-                        return this.product.availableInventory > this.cartItemCount;
-                    }
+
+                    cart: [],
+                    activity: [
+                        {id: 1001, class: 'Football', price: 100, image: 'images/football.jpg', availableInventory: 5},
+                        {id: 1002, class: 'Basketball', price: 120, image: 'images/basketball.jpg', availableInventory: 5},
+                        {id: 1003, class: 'Swimming', price: 150, image: 'images/swimming.jpg', availableInventory: 5},
+                        {id: 1004, class: 'Tennis', price: 150, image: 'images/tennis.jpg', availableInventory: 5},
+                        {id: 1005, class: 'Cricket', price: 150, image: 'images/cricket.jpg', availableInventory: 5},
+                        {id: 1006, class: 'Dance', price: 150, image: 'images/dance.jpg', availableInventory: 5},
+                        {id: 1007, class: 'Singing', price: 150, image: 'images/singing.jpg', availableInventory: 5},
+                        {id: 1008, class: 'Gymnastics', price: 150, image: 'images/gymnastics.jpg', availableInventory: 5},
+                        {id: 1009, class: 'Ice Hockey', price: 150, image: 'images/ice_hockey.jpg', availableInventory: 5},
+                        {id: 1010, class: 'Karate', price: 150, image: 'images/karate.jpg', availableInventory: 5}
+                    ]
                 }
             });
         </script>
