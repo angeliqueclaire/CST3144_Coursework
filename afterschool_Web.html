@@ -12,8 +12,9 @@
                 <button v-on:click="showCheckout">
                     <span class="fas fa-cart-plus"></span>
                     Checkout {{ cartItemCount }}
+
                 </button>
-    
+                {{ sumOfCart }}
             </header>
             <main>
                 <div id="showProduct">
@@ -32,6 +33,7 @@
                 </div>
                 <div id="showCheckout" v-if="!showProduct">
                     <h2>Checkout</h2>
+                    {{ sumOfCart }}
                 </div>
             </main>
         </div>
@@ -41,18 +43,19 @@
                 data: {
                     sitename: 'Afterschool Activities',
                     showProduct: true,
+                    totalCart: 0,
                     cart: [],
                     activity: [
-                        {id: 1001, class: 'Football', price: 150, image: 'images/football.jpg', availableInventory: 5},
-                        {id: 1002, class: 'Basketball', price: 150, image: 'images/basketball.jpg', availableInventory: 5},
-                        {id: 1003, class: 'Swimming', price: 150, image: 'images/swimming.jpg', availableInventory: 5},
-                        {id: 1004, class: 'Tennis', price: 150, image: 'images/tennis.jpg', availableInventory: 5},
+                        {id: 1001, class: 'Football', price: 110, image: 'images/football.jpg', availableInventory: 5},
+                        {id: 1002, class: 'Basketball', price: 120, image: 'images/basketball.jpg', availableInventory: 5},
+                        {id: 1003, class: 'Swimming', price: 130, image: 'images/swimming.jpg', availableInventory: 5},
+                        {id: 1004, class: 'Tennis', price: 140, image: 'images/tennis.jpg', availableInventory: 5},
                         {id: 1005, class: 'Cricket', price: 150, image: 'images/cricket.jpg', availableInventory: 5},
-                        {id: 1006, class: 'Dance', price: 150, image: 'images/dance.jpg', availableInventory: 5},
-                        {id: 1007, class: 'Singing', price: 150, image: 'images/singing.jpg', availableInventory: 5},
-                        {id: 1008, class: 'Gymnastics', price: 150, image: 'images/gymnastics.jpg', availableInventory: 5},
-                        {id: 1009, class: 'Ice Hockey', price: 150, image: 'images/ice_hockey.jpg', availableInventory: 5},
-                        {id: 1010, class: 'Karate', price: 150, image: 'images/karate.jpg', availableInventory: 5}
+                        {id: 1006, class: 'Dance', price: 160, image: 'images/dance.jpg', availableInventory: 5},
+                        {id: 1007, class: 'Singing', price: 170, image: 'images/singing.jpg', availableInventory: 5},
+                        {id: 1008, class: 'Gymnastics', price: 180, image: 'images/gymnastics.jpg', availableInventory: 5},
+                        {id: 1009, class: 'Ice Hockey', price: 190, image: 'images/ice_hockey.jpg', availableInventory: 5},
+                        {id: 1010, class: 'Karate', price: 200, image: 'images/karate.jpg', availableInventory: 5}
                     ]
                 },
                 methods: {
@@ -67,6 +70,15 @@
                 computed: {
                     cartItemCount: function() {
                         return this.cart.length ||"";
+                    },
+                    sumOfCart: function() {
+                        let total = 0;
+                        for (let i = 0; i < this.cart.length; i++) {
+                            let activityId = this.cart[i];
+                            total += this.activity[activityId - 1001].price;
+                            this.totalCart = total;
+                        }
+                        return total;
                     }
                 }
             });
