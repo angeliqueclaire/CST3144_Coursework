@@ -75,8 +75,12 @@
                         let total = 0;
                         for (let i = 0; i < this.cart.length; i++) {
                             let activityId = this.cart[i];
-                            total += this.activity[activityId - 1001].price;
-                            this.totalCart = total;
+                            for (let j = 0; j < this.activity.length; j++) {
+                                if (this.activity[j].id === activityId) { // Validates the activity id to the cart id.
+                                    total += this.activity[j].price;
+                                    this.totalCart = total;
+                                }
+                            }
                         }
                         return total;
                     }
