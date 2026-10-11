@@ -38,8 +38,54 @@
                         <p>Location: {{ item.location }}</p>
                         <p>Price: AED {{ item.price }}</p>
                         <p>Quantity: {{ item.quantity }}</p>
+
                     </div>
                     <h3>Total: AED {{ sumOfCart }}</h3>
+                    <div id="userInfo">
+                        <h2>Personal Information</h2>
+                        <p>
+                            Email: 
+                            <input type="email" v-model="user.email">
+                        </p>
+                        <p>
+                            First name: 
+                            <input type="text" v-model="user.firstName">
+                        </p>
+                        <p>
+                            Last name: 
+                            <input type="text" v-model="user.lastName">
+                        </p>
+                        <p>
+                            Phone number:
+                            <input type="text" v-model="user.phone">
+                        </p>
+                    </div>
+                    <div id="userOrder">
+                        <h2>Order Information</h2>
+                        <p>
+                            Country/Region: 
+                            <input type="text" v-model="order.country">
+                        </p>
+                        <p>
+                            Address: 
+                            <input type="text" v-model="order.address">
+                        </p>
+                        <p>
+                            City:
+                            <input type="text" v-model="order.city">
+                            <select v-model="order.city" class="city-select">
+                                <option disabled value="">City</option>
+                                <option v-for="city in cityOptions" v-bind:value="city.value">
+                                    {{ city.text }}
+                                </option>
+                            </select>
+                        </p>
+                        <p>
+                            ZIP/Postal code: 
+                            <input type="text" v-model="order.postalCode">
+                        </p>
+                    </div>
+                    <button v-on:click="submitForm">Submit</button>
                 </div>
             </main>
         </div>
@@ -51,8 +97,6 @@
                     showProduct: true,
                     totalCart: 0,
                     cart: [],
-                    overallSlots: [],
-                    userEmail: '',
                     activity: [
                         {id: 1001, class: 'Football', location: 'Dubai, Al Wasl Sports Club', price: 110, image: 'images/football.jpg', availableInventory: 5, quantity: 0},
                         {id: 1002, class: 'Basketball', location: 'Dubai, JSS Private School', price: 120, image: 'images/basketball.jpg', availableInventory: 5, quantity: 0},
@@ -65,16 +109,73 @@
                         {id: 1009, class: 'Ice Hockey', location: 'Abu Dhabi, Zayed Sports City', price: 190, image: 'images/ice_hockey.jpg', availableInventory: 5, quantity: 0},
                         {id: 1010, class: 'Karate', location: 'Sharjah, Wanderers Sports Club', price: 200, image: 'images/karate.jpg', availableInventory: 5, quantity: 0}
                     ],
+                    user: {
+                        email: '',
+                        firstName: '',
+                        lastName: '',
+                        phone: '',
+                    },
+                    order: {
+                        country: '',
+                        address: '',
+                        city: '',
+                        postalCode: '',
+                    },
+                    cityOptions: [
+                        { value: 'DU', text: 'Dubai' },
+                        { value: 'AD', text: 'Abu Dhabi' },
+                        { value: 'SHJ', text: 'Sharjah' },
+                        { value: 'AJM', text: 'Ajman' },
+                        { value: 'FUJ', text: 'Fujairah' },
+                        { value: 'RAK', text: 'Ras Al Khaimah' },
+                        { value: 'UAQ', text: 'Umm Al Quwain' }
+                    ]
                 },
                 methods: {
                     addToCart: function(activity) { //allows the activity to be added and decrease slots available
                         this.cart.push(activity);
                         activity.availableInventory--
+                        activity.quantity++;
                     },
                     showCheckout: function() {
                         this.showProduct = this.showProduct ? false:true;
                     },
-
+                    validateForm: function() {
+                        const emailInvalid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        
+                        if (this.cart.length === 0) {
+                            alert("Your cart is empty. Please add at least one activity.");
+                            return false;
+                        }
+                        if (!this.user.email || !this.user.firstName || !this.user.lastName || !this.user.phone) {
+                            alert("Please fill in all required fields.");
+                            return false;
+                        }
+                        if (!this.order.country || !this.order.address || !this.order.city || !this.order.postalCode) {
+                            alert("Please fill in all required fields.");
+                            return false;
+                        }
+                        if (this.user.email && !emailInvalid.test(this.user.email)) {
+                            alert("Please enter a valid email address.");
+                            return false;
+                        }
+                        if (this.user.phone.length !== 10) {
+                            alert("Please enter a valid phone number.");
+                            return false;
+                        }
+                        if (this.order.postalCode.length !== 5) {
+                            alert("Please enter a valid postal code.");
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    },
+                    submitForm: function() {
+                        if (this.validateForm()) {
+                            alert("Form submitted successfully!");
+                        }
+                    }
                 },
                 computed: {
                     cartItemCount: function() {
