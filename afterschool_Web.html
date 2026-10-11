@@ -12,15 +12,15 @@
                 <button v-on:click="showCheckout">
                     <span class="fas fa-cart-plus"></span>
                     Checkout {{ cartItemCount }}
-
                 </button>
                 {{ sumOfCart }}
             </header>
             <main>
-                <div id="showProduct">
+                <div id="Main" v-if="showProduct">
                     <figure v-for="x in activity" v-bind:key="x.id">
                         <img v-bind:src="x.image">
                         <h2>{{x.class}}</h2>
+                        <p>Location: {{x.location}}</p>
                         <p>Price: AED {{x.price}}</p>
                         <p>Available Inventory: {{x.availableInventory}}</p>
                         <button v-on:click="addToCart(x)" v-if="x.availableInventory > 0">
@@ -31,9 +31,15 @@
                         </button> 
                     </figure>
                 </div>
-                <div id="showCheckout" v-if="!showProduct">
+                <div v-else>
                     <h2>Checkout</h2>
-                    {{ sumOfCart }}
+                    <div v-for="item in cartSlots" :key="item.id">
+                        <h3>{{ item.class }}</h3>
+                        <p>Location: {{ item.location }}</p>
+                        <p>Price: AED {{ item.price }}</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                    </div>
+                    <h3>Total: AED {{ sumOfCart }}</h3>
                 </div>
             </main>
         </div>
@@ -45,44 +51,56 @@
                     showProduct: true,
                     totalCart: 0,
                     cart: [],
+                    overallSlots: [],
+                    userEmail: '',
                     activity: [
-                        {id: 1001, class: 'Football', price: 110, image: 'images/football.jpg', availableInventory: 5},
-                        {id: 1002, class: 'Basketball', price: 120, image: 'images/basketball.jpg', availableInventory: 5},
-                        {id: 1003, class: 'Swimming', price: 130, image: 'images/swimming.jpg', availableInventory: 5},
-                        {id: 1004, class: 'Tennis', price: 140, image: 'images/tennis.jpg', availableInventory: 5},
-                        {id: 1005, class: 'Cricket', price: 150, image: 'images/cricket.jpg', availableInventory: 5},
-                        {id: 1006, class: 'Dance', price: 160, image: 'images/dance.jpg', availableInventory: 5},
-                        {id: 1007, class: 'Singing', price: 170, image: 'images/singing.jpg', availableInventory: 5},
-                        {id: 1008, class: 'Gymnastics', price: 180, image: 'images/gymnastics.jpg', availableInventory: 5},
-                        {id: 1009, class: 'Ice Hockey', price: 190, image: 'images/ice_hockey.jpg', availableInventory: 5},
-                        {id: 1010, class: 'Karate', price: 200, image: 'images/karate.jpg', availableInventory: 5}
-                    ]
+                        {id: 1001, class: 'Football', location: 'Dubai, Al Wasl Sports Club', price: 110, image: 'images/football.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1002, class: 'Basketball', location: 'Dubai, JSS Private School', price: 120, image: 'images/basketball.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1003, class: 'Swimming', location: 'Abu Dhabi, Abu Dhabi Country Club', price: 130, image: 'images/swimming.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1004, class: 'Tennis', location: 'Dubai, Al Naayat Street', price: 140, image: 'images/tennis.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1005, class: 'Cricket', location: 'Abu Dhabi, Zayed Sports City', price: 150, image: 'images/cricket.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1006, class: 'Dance', location: 'Sharjah, Wanderers Sports Club', price: 160, image: 'images/dance.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1007, class: 'Singing', location: 'Dubai, Al Wasl Sports Club', price: 170, image: 'images/singing.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1008, class: 'Gymnastics', location: 'Sharjah, Baseline Sports Academy', price: 180, image: 'images/gymnastics.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1009, class: 'Ice Hockey', location: 'Abu Dhabi, Zayed Sports City', price: 190, image: 'images/ice_hockey.jpg', availableInventory: 5, quantity: 0},
+                        {id: 1010, class: 'Karate', location: 'Sharjah, Wanderers Sports Club', price: 200, image: 'images/karate.jpg', availableInventory: 5, quantity: 0}
+                    ],
                 },
                 methods: {
                     addToCart: function(activity) { //allows the activity to be added and decrease slots available
-                        this.cart.push(activity.id);
-                        activity.availableInventory--;
+                        this.cart.push(activity);
+                        activity.availableInventory--
                     },
                     showCheckout: function() {
-                        this.showProduct = false;
-                    }
+                        this.showProduct = this.showProduct ? false:true;
+                    },
+
                 },
                 computed: {
                     cartItemCount: function() {
                         return this.cart.length ||"";
                     },
-                    sumOfCart: function() {
-                        let total = 0;
-                        for (let i = 0; i < this.cart.length; i++) {
-                            let activityId = this.cart[i];
-                            for (let j = 0; j < this.activity.length; j++) {
-                                if (this.activity[j].id === activityId) { // Validates the activity id to the cart id.
-                                    total += this.activity[j].price;
-                                    this.totalCart = total;
+                    sumOfCart: function() {//calculates the total price of the cart
+                    return this.cart.reduce(function(total, item) {
+                       return total + item.price;
+                       }, 0);   
+                    },
+                    cartSlots: function() {
+                        return Object.values(
+                            this.cart.reduce(function(slots, item) {
+                                if(slots[item.id]) {
+                                    slots[item.id].quantity++;
+                                } else {
+                                    slots[item.id] = {
+                                        class: item.class,
+                                        location: item.location,
+                                        price: item.price,
+                                        quantity: 1
+                                    };
                                 }
-                            }
-                        }
-                        return total;
+                                return slots;
+                            }, {})
+                        )
                     }
                 }
             });
