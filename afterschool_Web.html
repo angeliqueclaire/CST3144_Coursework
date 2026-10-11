@@ -11,7 +11,7 @@
                 <h1 v-text="sitename"></h1>
                 <button v-on:click="showCheckout">
                     <span class="fas fa-cart-plus"></span>
-                    Checkout {{ cartItemCount }}
+                    Go to Checkout {{ cartItemCount }}
                 </button>
                 {{ sumOfCart }}
             </header>
@@ -38,7 +38,9 @@
                         <p>Location: {{ item.location }}</p>
                         <p>Price: AED {{ item.price }}</p>
                         <p>Quantity: {{ item.quantity }}</p>
-
+                        <button v-on:click="removeFromCart(item)">
+                            Remove from cart
+                        </button>
                     </div>
                     <h3>Total: AED {{ sumOfCart }}</h3>
                     <div id="userInfo">
@@ -85,7 +87,9 @@
                             <input type="text" v-model="order.postalCode">
                         </p>
                     </div>
-                    <button v-on:click="submitForm">Submit</button>
+                    <button :disabled="errors" v-on:click="submitForm">
+                        Checkout
+                    </button>
                 </div>
             </main>
         </div>
@@ -137,30 +141,31 @@
                         activity.availableInventory--
                         activity.quantity++;
                     },
+                    removeFromCart: function(item) {
+                        for (let i = 0; i < this.activity.length; i++) {
+                            if (this.activity[i].id === item.id) {
+                                this.activity[i].availableInventory++;
+                                this.activity[i].quantity--;
+                                break;
+                            }
+                        }
+                        for (let j = 0; j < this.cart.length; j++) {
+                            if (this.cart[j].id === item.id) {
+                                this.cart.splice(j,1);
+                                break;
+                            }
+                        }
+                    },
                     showCheckout: function() {
                         this.showProduct = this.showProduct ? false:true;
                     },
                     validateForm: function() {
-                        const emailInvalid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                        
                         if (this.cart.length === 0) {
                             alert("Your cart is empty. Please add at least one activity.");
                             return false;
                         }
-                        if (!this.user.email || !this.user.firstName || !this.user.lastName || !this.user.phone) {
-                            alert("Please fill in all required fields.");
-                            return false;
-                        }
                         if (!this.order.country || !this.order.address || !this.order.city || !this.order.postalCode) {
                             alert("Please fill in all required fields.");
-                            return false;
-                        }
-                        if (this.user.email && !emailInvalid.test(this.user.email)) {
-                            alert("Please enter a valid email address.");
-                            return false;
-                        }
-                        if (this.user.phone.length !== 10) {
-                            alert("Please enter a valid phone number.");
                             return false;
                         }
                         if (this.order.postalCode.length !== 5) {
@@ -178,6 +183,15 @@
                     }
                 },
                 computed: {
+                    errors: function() {
+                        return this.user.phone.length !== 10 ||
+                        !/^\d+$/.test(this.user.phone) ||
+                        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user.email) || 
+                        !/^[A-Za-z]+$/.test(this.user.firstName) ||
+                        !/^[A-Za-z]+$/.test(this.user.lastName) ||
+                        this.user.firstName === '' || 
+                        this.user.lastName === '';  
+                    },
                     cartItemCount: function() {
                         return this.cart.length ||"";
                     },
@@ -193,6 +207,7 @@
                                     slots[item.id].quantity++;
                                 } else {
                                     slots[item.id] = {
+                                        id: item.id,
                                         class: item.class,
                                         location: item.location,
                                         price: item.price,
