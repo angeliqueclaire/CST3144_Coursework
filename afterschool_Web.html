@@ -1,117 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>After School Website</title>
+        <title>AFTRNEST</title>
         <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"/>    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css"> 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">   
     </head>
     <body>
-        <div id="app">
-            <header>
-                <h1 v-text="sitename"></h1>
-                <button v-on:click="showCheckout">
-                    <span class="fas fa-cart-plus"></span>
-                    Go to Checkout {{ cartItemCount }}
+        <div id="app" class="productpage">
+            
+            <nav id ="gotoCheckout" class="oswald-font">
+                <h3>home</h3>
+                <img src="images/aftrnestLOGO.png" class="logo">
+                <button v-on:click="showCheckout" class="oswald-font" v-if="cartItemCount > 0">
+                    <span class="fa-solid fa-cart-shopping"></span>
+                    cart {{ cartItemCount }}
                 </button>
-                {{ sumOfCart }}
-            </header>
-            <main>
-                <div id="Main" v-if="showProduct">
-                    <figure v-for="x in activity" v-bind:key="x.id">
-                        <img v-bind:src="x.image">
-                        <h2>{{x.class}}</h2>
-                        <p>Location: {{x.location}}</p>
-                        <p>Price: AED {{x.price}}</p>
-                        <p>Available Inventory: {{x.availableInventory}}</p>
-                        <button v-on:click="addToCart(x)" v-if="x.availableInventory > 0">
-                            Add to cart
-                        </button>
-                        <button disabled="disabled" v-else>
-                            Add to cart
-                        </button> 
-                    </figure>
+                <button disabled="disabled" v-else class="oswald-font">
+                    <span class="fa-solid fa-cart-shopping"></span>
+                    cart
+                </button> 
+            </nav>
+            <div v-if="showProduct">
+                <div class="bordervert"></div>
+                <div class="container1">
+                    <img src="images/allsport.png" class="runningman">
+                    <img src="images/shuttle.png" class="shuttle">
+                    <h1 class="oswald-font">find your place beyond class.</h1>
+                    <p>From exciting sports activities to creative workshops and skill-building clubs, AFTRNEST connects students with meaningful experiences that make every after-school hour count.</p>
+                    <div class="line"></div>
+                </div> 
+                <div id="Main">
+                    <header>
+                        <div class="bgBrown">
+                            <h1 v-text="sitename" class="oswald-font"></h1>  
+                            <h3 class="oswald-font">sort by</h3>
+                            
+                            <div id="circle"></div>
+                        </div>
+                    </header>
+                    <main>
+                        <figure v-for="x in activity" v-bind:key="x.id">
+                            <span  id="remaining" v-if="x.availableInventory < 5" class="oswald-font">
+                                        Only {{ x.availableInventory}} left!
+                                    </span>
+                            <img v-bind:src="x.image">
+                            <div id="details">
+                                <h2 class="oswald-font">{{x.class}}</h2>
+                                <div id="ratings" class="oswald-font">
+                                    <span v-for="n in x.rating" class="fa-solid fa-star"></span>
+                                    <span v-for="n in 5 - x.rating" class="fa-regular fa-star" ></span>{{ x.rating }}
+                                </div>
+                                <div class="arimo-font" id="details2">
+                                    
+                                    <p>Location: {{x.location}}</p>
+                                    <p>Price: AED {{x.price}}</p>
+                                    <p>Available Inventory: {{x.availableInventory}}</p>
+                                </div>
+                            </div>
+                            <div id="buttonsCart">
+                                <button id="addingbt" v-on:click="addToCart(x)" v-if="x.availableInventory > 0" class="league-spartan-font">  
+                                    Add to cart
+                                </button>
+                                <button id="soldout_bt" disabled="disabled" v-else class="league-spartan-font">
+                                    Sold out
+                                </button> 
+                            </div>
+
+                        </figure>
+                    </main>
                 </div>
-                <div v-else>
+            </div>
+
+            
+            <div v-else class="checkoutpage">
+                <div class="shape2"></div>
+                <header class="oswald-font">
+                    <div class="shape"></div>
+                    <div class="shape2"></div>
                     <h2>Checkout</h2>
-                    <div v-for="item in cartSlots" :key="item.id">
-                        <h3>{{ item.class }}</h3>
-                        <p>Location: {{ item.location }}</p>
-                        <p>Price: AED {{ item.price }}</p>
-                        <p>Quantity: {{ item.quantity }}</p>
-                        <button v-on:click="removeFromCart(item)">
-                            Remove from cart
+                    <img src="images/mascot.png">
+                    <p>total  cost AED {{ sumOfCart }}</p>
+                </header>
+
+                <main>
+                    <div class="checkInfo">
+                        <h2 id="title" class="oswald-font">Personal Information</h2>
+                        <div id="userInfo">
+                            <p><input type="email" v-model.trim="user.email" placeholder="email"></p>
+                            <p><input type="text" v-model.trim="user.firstName" placeholder="first name"></p>
+                            <p><input type="text" v-model.trim="user.lastName" placeholder="last name"></p>
+                            <p><input type="text" v-model.trim="user.phone" placeholder="phone number"></p>
+                        </div>
+
+                        
+                        <h2 id="title" class="oswald-font">Order Information</h2>
+                        <div id="userOrder">
+                            <p><input type="text" v-model="order.country" placeholder="country/region"></p>
+                            <p><input type="text" v-model="order.address" placeholder="address"></p>
+                            <p>
+                                <select v-model="order.city" class="city-select">
+                                    <option disabled value="">City</option>
+                                    <option v-for="city in cityOptions" v-bind:value="city.value">
+                                        {{ city.text }}
+                                    </option>
+                                </select>
+                            </p>
+                            <p><input type="text" v-model.number="order.postalCode" placeholder="zip/postal code"></p>
+                        </div>
+                        <button id="checkoutbt-error" v-if="errors" v-on:click="submitForm" class="league-spartan-font">
+                            Checkout
+                        </button>
+                        <button id="checkoutbt" :disabled="errors" v-else v-on:click="submitForm" class="league-spartan-font">
+                            Checkout
                         </button>
                     </div>
-                    <h3>Total: AED {{ sumOfCart }}</h3>
-                    <div id="userInfo">
-                        <h2>Personal Information</h2>
-                        <p>
-                            Email: 
-                            <input type="email" v-model="user.email">
-                        </p>
-                        <p>
-                            First name: 
-                            <input type="text" v-model="user.firstName">
-                        </p>
-                        <p>
-                            Last name: 
-                            <input type="text" v-model="user.lastName">
-                        </p>
-                        <p>
-                            Phone number:
-                            <input type="text" v-model="user.phone">
-                        </p>
+                    <div class="main-box"></div>
+                    <div id="box-header" class="oswald-font">
+                        <h2>checkout summary</h2>
+                        <div class="h3-group">
+                            <h3>item</h3>
+                            <h3>quantity</h3>
+                            <h3>price</h3>
+                            <h3>delete</h3>
+                        </div>
                     </div>
-                    <div id="userOrder">
-                        <h2>Order Information</h2>
-                        <p>
-                            Country/Region: 
-                            <input type="text" v-model="order.country">
-                        </p>
-                        <p>
-                            Address: 
-                            <input type="text" v-model="order.address">
-                        </p>
-                        <p>
-                            City:
-                            <input type="text" v-model="order.city">
-                            <select v-model="order.city" class="city-select">
-                                <option disabled value="">City</option>
-                                <option v-for="city in cityOptions" v-bind:value="city.value">
-                                    {{ city.text }}
-                                </option>
-                            </select>
-                        </p>
-                        <p>
-                            ZIP/Postal code: 
-                            <input type="text" v-model="order.postalCode">
-                        </p>
+                    <div class="cartList">
+                        <div v-for="item in cartSlots" :key="item.id" id="summary" class="oswald-font">
+                            <div class="item-product">
+                            <img v-bind:src="item.image">
+                            </div>
+                            <div class="item-name">
+                                <h3>{{ item.class }}</h3>
+                                <p class="arimo-font ">Location: {{ item.location }}</p> 
+                            </div>
+                            <div class="item-quantity">
+                                <p>{{ item.quantity }}</p>
+                            </div>
+                            <div class="item-price">
+                                <p>AED {{ item.price }}</p>
+                            </div>
+                            <div class="item-delete">
+                                <button v-on:click="removeFromCart(item)">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>  
+                            </div>
+                            
+                        </div>
                     </div>
-                    <button :disabled="errors" v-on:click="submitForm">
-                        Checkout
-                    </button>
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
         <script type="text/javascript">
             let webstore = new Vue({
                 el: '#app',
                 data: {
-                    sitename: 'Afterschool Activities',
+                    sitename: 'Activities',
                     showProduct: true,
                     totalCart: 0,
                     cart: [],
                     activity: [
-                        {id: 1001, class: 'Football', location: 'Dubai, Al Wasl Sports Club', price: 110, image: 'images/football.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1002, class: 'Basketball', location: 'Dubai, JSS Private School', price: 120, image: 'images/basketball.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1003, class: 'Swimming', location: 'Abu Dhabi, Abu Dhabi Country Club', price: 130, image: 'images/swimming.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1004, class: 'Tennis', location: 'Dubai, Al Naayat Street', price: 140, image: 'images/tennis.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1005, class: 'Cricket', location: 'Abu Dhabi, Zayed Sports City', price: 150, image: 'images/cricket.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1006, class: 'Dance', location: 'Sharjah, Wanderers Sports Club', price: 160, image: 'images/dance.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1007, class: 'Singing', location: 'Dubai, Al Wasl Sports Club', price: 170, image: 'images/singing.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1008, class: 'Gymnastics', location: 'Sharjah, Baseline Sports Academy', price: 180, image: 'images/gymnastics.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1009, class: 'Ice Hockey', location: 'Abu Dhabi, Zayed Sports City', price: 190, image: 'images/ice_hockey.jpg', availableInventory: 5, quantity: 0},
-                        {id: 1010, class: 'Karate', location: 'Sharjah, Wanderers Sports Club', price: 200, image: 'images/karate.jpg', availableInventory: 5, quantity: 0}
+                        {id: 1001, class: 'Football', rating: 5, location: 'Dubai, Al Wasl Sports Club', price: 110, image: 'images/football.png', availableInventory: 10, quantity: 0},
+                        {id: 1002, class: 'Basketball', rating: 3,location: 'Dubai, JSS Private School', price: 120, image: 'images/basketball.png', availableInventory: 10, quantity: 0},
+                        {id: 1003, class: 'Swimming', rating: 5, location: 'Abu Dhabi, Country Club', price: 130, image: 'images/swimming.png', availableInventory: 10, quantity: 0},
+                        {id: 1004, class: 'Tennis', rating: 3, location: 'Dubai, Al Naayat Street', price: 140, image: 'images/tennis.png', availableInventory: 10, quantity: 0},
+                        {id: 1005, class: 'Cricket', rating: 4, location: 'Abu Dhabi, Zayed  City', price: 150, image: 'images/cricket.png', availableInventory: 10, quantity: 0},
+                        {id: 1006, class: 'Dance', rating: 3, location: 'Sharjah, Wanderers Club', price: 160, image: 'images/dance.png', availableInventory: 10, quantity: 0},
+                        {id: 1007, class: 'Singing', rating: 2, location: 'Dubai, Al Wasl Sports Club', price: 170, image: 'images/singing.png', availableInventory: 10, quantity: 0},
+                        {id: 1008, class: 'Gymnastics', rating: 4, location: 'Sharjah, Baseline Academy', price: 180, image: 'images/gymnastics.png', availableInventory: 10, quantity: 0},
+                        {id: 1009, class: 'Ice Hockey', rating: 3, location: 'Abu Dhabi, Zayed City', price: 190, image: 'images/ice_hockey.png', availableInventory: 10, quantity: 0},
+                        {id: 1010, class: 'Karate', rating: 1, location: 'Sharjah, Wanderers Club', price: 200, image: 'images/karate.png', availableInventory: 10, quantity: 0}
                     ],
                     user: {
                         email: '',
@@ -155,15 +219,17 @@
                                 break;
                             }
                         }
-                    },
+                        if(this.cart.length == 0) {
+                            this.showProduct = true;
+                        }
+                    },  
                     showCheckout: function() {
                         this.showProduct = this.showProduct ? false:true;
-                    },
-                    validateForm: function() {
-                        if (this.cart.length === 0) {
-                            alert("Your cart is empty. Please add at least one activity.");
-                            return false;
+                        if (this.cart.length == 0) {
+                            this.showProduct = !this.showProduct;
                         }
+                    },  
+                    validateForm: function() {
                         if (!this.order.country || !this.order.address || !this.order.city || !this.order.postalCode) {
                             alert("Please fill in all required fields.");
                             return false;
@@ -179,6 +245,7 @@
                     submitForm: function() {
                         if (this.validateForm()) {
                             alert("Form submitted successfully!");
+                            this.showProduct = true;
                         }
                     }
                 },
@@ -208,6 +275,8 @@
                                 } else {
                                     slots[item.id] = {
                                         id: item.id,
+                                        image: item.image,
+                                        rating: item.rating,
                                         class: item.class,
                                         location: item.location,
                                         price: item.price,

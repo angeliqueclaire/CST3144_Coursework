@@ -1,0 +1,485 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.oswald-font {
+  font-family: "Oswald", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.arimo-font {
+  font-family: "Arimo", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.league-spartan-font {
+  font-family: "League Spartan", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+html {
+    background-color: #fff3e4;
+}
+
+#gotoCheckout {
+    padding-top: 0.5%;
+    padding-right: 4%;
+    padding-left: 2%;
+    background-color: none;
+    font-size: 120%;
+    display: flex;
+    justify-content: space-between;
+}
+#gotoCheckout h3 {
+    padding: 0.6%;
+}
+
+.logo {
+    width: 20%;
+}
+
+#gotoCheckout button {
+    font-size: 120%;
+    border: none;
+    background-color: #fff3e4;
+}
+
+.container1 {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding-bottom: 44%;
+}
+
+.container1 h1 {
+    position: absolute;
+    line-height: 90%;
+    width: 55%;
+    font-size: 900%;
+    letter-spacing: -6%;
+    bottom: 23%;
+    left: 11%;
+}
+
+.container1 p {
+    font-family: "Oswald", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: 130%;
+    text-transform: uppercase;
+    width: 45%;
+    position: absolute;
+    bottom: 4%;
+    right: 43%;
+}
+
+.runningman {
+    position: absolute;
+    transform: scale(1.0); 
+    transform-origin: center center;
+    top: -1%;
+    left: 34.9%;
+    z-index: 3;
+
+}
+
+.shuttle {
+    position: absolute;
+    width: 13.5%;
+    top: 0.5%;
+    left: 15%;
+    rotate: -30deg;
+    z-index: 2;
+}
+
+#circle {
+    position: relative;
+    background-color: orange;
+    clip-path: circle(50%);
+    width: 50%;
+    top: 100%;
+    left: 100%;
+    z-index: 2;
+}
+
+.bordervert {
+    position: absolute;
+    background-color: black;
+    width: 0.5%;
+    height: 100%;
+    bottom: 0%;
+    left: 9%;
+}
+
+.line {
+    position: absolute;
+    background-color: black;
+    width: 0.5%;
+    height: 50%;
+    top: 25%;
+    left: 33.3%;
+}
+
+/* HEADER PART --------------------------------------- */
+
+.productpage {
+    background-color: #fff3e4;
+    width: 100%;
+    height: 100%;
+}
+
+.bgBrown {
+    background: #5d1d14;
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 48.6%;
+}
+
+.bgBrown h1 {
+    color: #ff751f;
+    font-size: 700%;
+    padding-top: 4%;;
+}
+
+.bgBrown h3 {
+    position: absolute;
+    color: #ff751f;
+    font-size: 200%;
+    left: 10%;
+}
+
+/* MAIN PART ----------------------- */
+
+#Main {
+    background-color: #5d1d14;
+    padding-left: 8%;
+}
+
+figure {
+    display: inline-block;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: none;
+    height: 100%;
+    width: 20%;
+    margin: 1%;
+    border: 5px solid #97331e;
+    border-top: none;
+}
+
+figure img {
+    width: 100%;
+    padding-right: 2%;
+    transform: scale(1.035);
+    transform-origin: center center;
+}
+
+#details {
+    color: #fff3e4;
+    padding-left: 5%;
+}       
+
+#details h2{
+    font-size: 200%;
+} 
+
+#details2{
+    font-size: 90%;
+} 
+
+#remaining {
+    position: absolute;
+    color: #fff3e4;
+    background-color: red;
+    width: 5.5%;
+    padding: 0.5%;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+#ratings {
+    padding-bottom: 2%;
+    color: #ff751f;
+}
+
+#addingbt {
+    background-color: #c1ff72;
+    padding: 5%;
+    width: 100%;
+    border-color: none;
+    font-size: 120%;
+    border: 12px solid #5d1d14;
+    color: #5d1d14;
+}
+
+#soldout_bt {
+    background-color: red;
+    padding: 5%;
+    width: 100%;
+    border-color: none;
+    font-size: 120%;
+    border: 12px solid #5d1d14;
+    color: #fff3e4;
+}
+
+#buttonsCart {
+    padding-top: 1%;
+}
+
+#buttonsCart button {
+    text-transform: uppercase;
+}
+
+/* CHECKOUT PART ----------------------- */
+
+
+.checkoutpage header {
+    position: relative;
+    letter-spacing: -5%;
+    height: 10%;
+}
+
+.shape {
+    position: absolute;
+    background-color: red;
+    width: 86.76%;
+    height: 65%;
+    bottom: 2%;
+    right: 0%;
+    border-radius: 15px 0px 0px 15px;
+}
+
+.shape2 {
+    position: absolute;
+    background-color: black;
+    width: 1.7%;
+    height: 100%;
+    bottom: 0%;
+    left: 10.4%;
+}
+
+.checkoutpage header h2 {
+    position: absolute;
+    font-size: 900%;
+    left: 5%;
+    top: 19%;
+}
+
+.checkoutpage header img {
+    position: relative;
+    width: 25%;
+    left: 43%;
+    padding-top: 1%;
+}
+
+.checkoutpage header p {
+    line-height: 100%;
+    position: absolute;
+    width: 21%;
+    bottom: 12%;
+    font-size: 350%;
+    right: 7%;
+}
+
+/*CHECK INFO PART --------------------------*/
+
+.checkoutpage main {
+    display: inline-flex;
+    width: 83%;
+    padding-left: 15.5%;
+}
+
+.checkInfo button{
+    width: 100%;
+    padding: 4%;
+    border: none;
+    border-radius: 15px;
+    font-size: 200%;
+    text-transform: uppercase;
+    letter-spacing: -6%;
+}
+
+#title {
+    font-size: 280%;
+    padding-top: 1%; 
+    padding-bottom: 2%;
+    letter-spacing: -6%; 
+}
+
+#userInfo, #userOrder {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 0.5%;
+}
+
+input, .city-select {
+    background-color: #ffd5a0;
+    padding: 3%;
+    width: 91%;
+    border: 4px solid #fff3e4;
+    border-radius: 10px;
+}
+
+input::placeholder  {
+  color: #c09763;
+  font-family: "Arimo", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+.city-select {
+  width: 100.2%;
+}
+
+#userOrder {
+    padding-bottom: 5%;
+}
+
+#checkoutbt {
+    background-color: #00bf63;
+    color: #c1ff72;
+
+}
+
+#checkoutbt-error {
+    background-color: red;
+    color: black;
+    text-decoration: line-through;
+}
+
+/*IN CART SUMMARRY --------------------------*/
+
+.cartList {
+    position: absolute;
+    height: 29%;
+    bottom: 9%;
+    right: 3.4%;
+    width: 50.7%;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+
+}
+
+#summary {
+    display: grid;
+    grid-template-columns: 21.7% 20% 18.7% 19% 18.5%;
+    background-color: white;
+    box-sizing: border-box;
+    gap: 0.5%;
+    color: #55140f;
+}
+
+#summary img {
+    width: 90%;
+    padding: 6%;
+}
+
+.main-box {
+    position: absolute;
+    background: linear-gradient(to top,#ffd5a0 0%, #ffd5a0 71%, black 71%, black 100%);
+    width: 53%;
+    right: 2%;
+    height: 49.6%;
+    bottom: 5.5%;
+}
+
+#box-header {
+    position: absolute;
+    color: #fff3e4;
+    top: 45%;
+    right: 2%;
+    width: 52%;
+    padding-left: 1%;
+}
+
+.displaySum {
+    display: inline-flex;
+    width: 95.5%;
+}
+
+#box-header h2 {
+    font-size: 230%;
+}
+
+.h3-group h3 {
+    display: inline-flex;
+    color: #c09763;
+    box-sizing: border-box;
+    font-size: 170%;
+}
+
+.h3-group h3:nth-child(2), .h3-group h3:nth-child(3), .h3-group h3:nth-child(4) {
+    justify-content: center;
+    text-align: center;
+}
+
+.h3-group h3:nth-child(1) {
+    width: 40%;
+}
+
+.h3-group h3:nth-child(2) {
+    width: 18%;
+    text-align: center;
+}
+
+.h3-group h3:nth-child(3) {
+    width: 18%;
+    text-align: center;
+}
+
+.h3-group h3:nth-child(4) {
+    width: 18%;
+    text-align: center;
+}
+
+.item-quantity, .item-price, .item-delete, .item-product {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.item-quantity, .item-price, .item-delete, .item-product, .item-name {
+    padding: 5%;
+}
+
+.item-quantity, .item-price {
+    font-size: 130%;
+}
+
+.item-name {
+    padding-top: 15%;
+}
+
+.item-name h3 {
+    font-size: 150%;
+}
+
+.item-name p {
+    font-size: 60%;
+}
+
+.item-delete button {
+    border: none;
+    background-color: white;
+}
+
+.item-delete button i {
+    font-size: 200%;
+    color: red;
+}
+
+
+
