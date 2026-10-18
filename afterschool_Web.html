@@ -40,8 +40,34 @@
                     <header>
                         <div class="bgBrown">
                             <h1 v-text="sitename" class="oswald-font"></h1>  
-                            <h3 class="oswald-font">sort by</h3>
                             
+                            <div class="oswald-font" id="sortingRadio">
+                                <label class="radio" id="sortby">
+                                    <h3 class="oswald-font">sort by</h3>
+                                </label>
+                                <label class="radio" id="priceAsc">                                
+                                    <input v-on:change="sort" type="radio" v-model="sortOrder" value="asc" name="order" checked> 
+                                    <span class="name">Ascending</span>
+                                </label>
+                                <label class="radio" id="priceDesc">                                
+                                    <input v-on:change="sort" type="radio" v-model="sortOrder" value="desc" name="order">
+                                    <span class="name">Descending</span>
+                                </label>
+                                <label class="radio" id="priceOpt">                                
+                                    <input v-on:change="sort" type="radio" v-model="sortOpt" value="price" name="option">
+                                    <span class="name">Price</span>
+                                </label>
+                                <label class="radio" id="classOpt">                                
+                                    <input v-on:change="sort" type="radio" v-model="sortOpt" value="class" name="option">  
+                                    <span class="name">Class</span>
+                                </label> 
+                                <label class="radio" id="locationOpt">                                
+                                    <input v-on:change="sort" type="radio" v-model="sortOpt" value="location" name="option">
+                                    <span class="name">Location</span>
+                                </label> 
+            
+                            </div>
+
                             <div id="circle"></div>
                         </div>
                     </header>
@@ -112,12 +138,12 @@
                                     </option>
                                 </select>
                             </p>
-                            <p><input type="text" v-model.number="order.postalCode" placeholder="zip/postal code"></p>
+                            <p><input type="text" v-model="order.postalCode" placeholder="zip/postal code"></p>
                         </div>
-                        <button id="checkoutbt-error" v-if="errors" v-on:click="submitForm" class="league-spartan-font">
+                        <button id="checkoutbt"  v-if="errors" v-on:click="submitForm" class="league-spartan-font">
                             Checkout
                         </button>
-                        <button id="checkoutbt" :disabled="errors" v-else v-on:click="submitForm" class="league-spartan-font">
+                        <button id="checkoutbt-error" disabled v-else v-on:click="submitForm" class="league-spartan-font">
                             Checkout
                         </button>
                     </div>
@@ -165,6 +191,8 @@
                     showProduct: true,
                     totalCart: 0,
                     cart: [],
+                    sortOrder: 'asc',
+                    sortOpt: 'price',
                     activity: [
                         {id: 1001, class: 'Football', rating: 5, location: 'Dubai, Al Wasl Sports Club', price: 110, image: 'images/football.png', availableInventory: 10, quantity: 0},
                         {id: 1002, class: 'Basketball', rating: 3,location: 'Dubai, JSS Private School', price: 120, image: 'images/basketball.png', availableInventory: 10, quantity: 0},
@@ -247,17 +275,67 @@
                             alert("Form submitted successfully!");
                             this.showProduct = true;
                         }
+                    },
+                    
+                    sort: function() {
+
+                    function compare(a, b) {
+                        let order = webstore.sortOrder;
+                        let option = webstore.sortOpt;
+
+                        if (option == 'price') {
+                            if (order == 'asc') {
+                                if (a.price < b.price) return -1;
+                                if (a.price > b.price) return 1;
+                                return 0;
+                            }
+                            else if (order == 'desc') {
+                                if (a.price < b.price) return 1;
+                                if (a.price > b.price) return -1;
+                                return 0;
+                            }
+                        }
+
+                        else if (option == 'class') {
+                            if (order == 'asc') {
+                                if (a.class < b.class) return -1;
+                                if (a.class > b.class) return 1;
+                                return 0;
+                            }
+                            else if (order == 'desc') {
+                                if (a.class < b.class) return 1;
+                                if (a.class > b.class) return -1;
+                                return 0;
+                            }
+                        }
+
+                        else if (option == 'location') {
+                            if (order == 'asc') {
+                                if (a.location < b.location) return -1;
+                                if (a.location > b.location) return 1;
+                                return 0;
+                            }
+                            else if (order == 'desc') {
+                                if (a.location < b.location) return 1;
+                                if (a.location > b.location) return -1;
+                                return 0;
+                            }
+                        }
+                        return 0;
                     }
+
+                    this.activity.sort(compare);
+                }
+
+
                 },
                 computed: {
                     errors: function() {
-                        return this.user.phone.length !== 10 ||
-                        !/^\d+$/.test(this.user.phone) ||
-                        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user.email) || 
-                        !/^[A-Za-z]+$/.test(this.user.firstName) ||
-                        !/^[A-Za-z]+$/.test(this.user.lastName) ||
-                        this.user.firstName === '' || 
-                        this.user.lastName === '';  
+                        return this.user.phone.length == 10 &&
+                        /^\d+$/.test(this.user.phone) &&
+                        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.user.email) &&
+                        /^[A-Za-z]+$/.test(this.user.firstName) &&
+                        /^[A-Za-z]+$/.test(this.user.lastName); 
                     },
                     cartItemCount: function() {
                         return this.cart.length ||"";
@@ -286,7 +364,9 @@
                                 return slots;
                             }, {})
                         )
-                    }
+                    },
+                    
+
                 }
             });
         </script>

@@ -52,6 +52,10 @@ html {
     background-color: #fff3e4;
 }
 
+#gotoCheckout button:enabled:hover {
+    color: #545454;
+}
+
 .container1 {
     display: block;
     position: relative;
@@ -138,24 +142,14 @@ html {
 }
 
 .bgBrown {
-    background: #5d1d14;
-    display: flex;
-    flex-direction: row-reverse;
-    padding-right: 48.6%;
+    padding-left: 1%;
 }
 
 .bgBrown h1 {
     color: #ff751f;
     font-size: 700%;
-    padding-top: 4%;;
 }
 
-.bgBrown h3 {
-    position: absolute;
-    color: #ff751f;
-    font-size: 200%;
-    left: 10%;
-}
 
 /* MAIN PART ----------------------- */
 
@@ -168,11 +162,11 @@ figure {
     display: inline-block;
     flex-wrap: wrap;
     justify-content: space-around;
-    background-color: none;
+    background-color: #310600;
     height: 100%;
     width: 20%;
     margin: 1%;
-    border: 5px solid #97331e;
+    border: 5px solid #310600;
     border-top: none;
 }
 
@@ -217,8 +211,13 @@ figure img {
     width: 100%;
     border-color: none;
     font-size: 120%;
-    border: 12px solid #5d1d14;
+    border: 12px solid #310600;
     color: #5d1d14;
+}
+
+#addingbt:hover {
+    background-color: #00bf63;
+    color: #c1ff72;
 }
 
 #soldout_bt {
@@ -289,6 +288,59 @@ figure img {
     font-size: 350%;
     right: 7%;
 }
+
+/*RADIO SORTING PART --------------------------*/
+
+#sortingRadio {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    padding-bottom: 3%;
+    width: 55%;
+    z-index: 3;
+    justify-content: center;
+    align-items: center;
+  
+}
+
+    .radio {
+        display: flex;
+        color: #5d1d14;
+        height: 100%;
+        width: 90%;
+        font-size: 120%;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+    }
+
+    input[type="radio"]:checked + .name{
+        display: flex;
+        background-color: #ff6303;
+        color: #ffe26f;
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        box-shadow:  7px 9px 1px #310600;
+        
+    }
+
+#sortingRadio input {
+    display: none;
+} 
+
+#sortby {
+    color: #ff751f;
+    font-size: 150%;
+}
+
+
+#priceAsc, #priceDesc, #priceOpt, #classOpt, #locationOpt {
+    background-color: #c1ff72;
+}
+
 
 /*CHECK INFO PART --------------------------*/
 
