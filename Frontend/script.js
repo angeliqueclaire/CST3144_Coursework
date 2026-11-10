@@ -179,4 +179,5 @@ let webstore = new Vue({
             )
         },
     }
+    
 });
