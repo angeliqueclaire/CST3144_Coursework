@@ -7,18 +7,7 @@ let webstore = new Vue({
         cart: [],
         sortOrder: 'asc',
         sortOpt: 'price',
-        activity: [
-            {id: 1001, class: 'Football', rating: 5, location: 'Dubai, Al Wasl Sports Club', price: 110, image: 'images/football.png', availableInventory: 10, quantity: 0},
-            {id: 1002, class: 'Basketball', rating: 3,location: 'Dubai, JSS Private School', price: 120, image: 'images/basketball.png', availableInventory: 10, quantity: 0},
-            {id: 1003, class: 'Swimming', rating: 5, location: 'Abu Dhabi, Country Club', price: 130, image: 'images/swimming.png', availableInventory: 10, quantity: 0},
-            {id: 1004, class: 'Tennis', rating: 3, location: 'Dubai, Al Naayat Street', price: 140, image: 'images/tennis.png', availableInventory: 10, quantity: 0},
-            {id: 1005, class: 'Cricket', rating: 4, location: 'Abu Dhabi, Zayed  City', price: 150, image: 'images/cricket.png', availableInventory: 10, quantity: 0},
-            {id: 1006, class: 'Dance', rating: 3, location: 'Sharjah, Wanderers Club', price: 160, image: 'images/dance.png', availableInventory: 10, quantity: 0},
-            {id: 1007, class: 'Singing', rating: 2, location: 'Dubai, Al Wasl Sports Club', price: 170, image: 'images/singing.png', availableInventory: 10, quantity: 0},
-            {id: 1008, class: 'Gymnastics', rating: 4, location: 'Sharjah, Baseline Academy', price: 180, image: 'images/gymnastics.png', availableInventory: 10, quantity: 0},
-            {id: 1009, class: 'Ice Hockey', rating: 3, location: 'Abu Dhabi, Zayed City', price: 190, image: 'images/ice_hockey.png', availableInventory: 10, quantity: 0},
-            {id: 1010, class: 'Karate', rating: 1, location: 'Sharjah, Wanderers Club', price: 200, image: 'images/karate.png', availableInventory: 10, quantity: 0}
-        ],
+        activity: [],
         user: {
             email: '',
             firstName: '',
@@ -41,6 +30,19 @@ let webstore = new Vue({
             { value: 'UAQ', text: 'Umm Al Quwain' }
         ]
     },
+
+    created: function() {
+        fetch('http://localhost:3000/api/activities').then (
+            function(response) {
+                response.json().then(
+                    function(json) {
+                        webstore.activity = json;
+                    }
+                )
+            }
+        )
+    },
+
     methods: {
         addToCart: function(activity) {
             this.cart.push(activity);
@@ -86,6 +88,7 @@ let webstore = new Vue({
         },
         submitForm: function() {
             if (this.validateForm()) {
+                var activityIDs = 
                 alert("Form submitted successfully!");
                 this.showProduct = true;
             }
