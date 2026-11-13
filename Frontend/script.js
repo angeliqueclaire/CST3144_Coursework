@@ -32,7 +32,7 @@ let webstore = new Vue({
     },
 
     created: function() {
-        fetch('http://localhost:3000/api/activities').then (
+        fetch('http://localhost:3000/api/lessons').then (
             function(response) {
                 response.json().then(
                     function(json) {
@@ -74,6 +74,10 @@ let webstore = new Vue({
             }
         },  
         validateForm: function() {
+            if (!this.errors) {
+                alert("Please enter valid personal information.");
+                return false;
+            }
             if (!this.order.country || !this.order.address || !this.order.city || !this.order.postalCode) {
                 alert("Please fill in all required fields.");
                 return false;
@@ -88,11 +92,35 @@ let webstore = new Vue({
         },
         submitForm: function() {
             if (this.validateForm()) {
-                var activityIDs = 
-                alert("Form submitted successfully!");
-                this.showProduct = true;
+            var orderData = {
+                firstName: this.user.firstName,
+                lastName: this.user.lastName,
+                phone: this.user.phone,
+                postalCode: this.order.postalCode,
+                lessonIDs: [],
+                numOfSpaces: []
+            };
+
+            for (var i = 0; i < this.cartSlots.length; i++) {
+                orderData.lessonIDs.push(this.cartSlots[i].id);
+                orderData.numOfSpaces.push(this.cartSlots[i].quantity);
             }
-        },
+
+            fetch("/api/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                alert(data.message);
+                webstore.showProduct = true;
+            })
+        }},
         
         sort: function() {
         function compare(a, b) {
