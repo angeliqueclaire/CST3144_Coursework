@@ -118,8 +118,36 @@ let webstore = new Vue({
             })
             .then(function(data) {
                 alert(data.message);
+
+                for (var i = 0; i < webstore.cartSlots.length; i++) {
+                    fetch("/api/lessons/" + webstore.cartSlots[i].id, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            availableInventory: webstore.cartSlots[i].availableInventory
+                        })
+                    })
+
+                    .then(function(response) {
+                        return response.json();
+                    })
+
+                    .then(function(data) {
+                        console.log(data.message);
+                    })
+
+                    .catch(function(error) {
+                        console.log("PUT Error:", error);
+                    });
+                }
                 webstore.showProduct = true;
             })
+            
+            .catch(function(error) {
+                console.log("POST Error:", error);
+            });
         }},
         
         sort: function() {
@@ -202,7 +230,8 @@ let webstore = new Vue({
                             class: item.class,
                             location: item.location,
                             price: item.price,
-                            quantity: 1
+                            quantity: 1,
+                            availableInventory: item.availableInventory
                         };
                     }
                     return slots;

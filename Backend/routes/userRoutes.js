@@ -37,12 +37,6 @@ module.exports = function(db) {
         console.log("Activities converted to json");
     });
 
-    api.get("/users", function(request, response) {
-        response.json([
-            { name: "John Doe", email: "john.doe@example.com" }
-        ]);
-    });
-
     api.get("/orders", function(request, response) {
         fs.readFile(ordersFile, 'utf8', function(error, data) {
             if(error) {
@@ -53,6 +47,20 @@ module.exports = function(db) {
             response.json(orders); 
         })
     })
+
+    api.post("/lessons", async function(request, response) {
+        try {
+            await db.collection("lesson").insertMany(activity);
+            response.json("Lessons inserted successfully")
+
+        } catch (error) {
+            console.error(error);
+            response.status(500).json({
+                message: "Lessons not found"
+            });
+        }
+
+    });
 
     api.post("/orders", async function(request, response) {
         var body = request.body;
@@ -78,7 +86,7 @@ module.exports = function(db) {
                         console.log(error);
                     }
                 });
-                response.json({ message: "Order received!" });
+                response.json({ message: "Order received" });
             });
 
             console.log("Order received");
@@ -93,6 +101,35 @@ module.exports = function(db) {
             response.status(500).json({
                 message: "Saving order failed"
             });
+        }
+    });
+
+    api.put("/lessons/:id", async function(request, response) {
+        var lessonId = Number(request.params.id);
+        var body = request.body;
+
+        try {
+                
+            var idExist = await db.collection("lesson").findOne({id: lessonId});
+            
+            if(!idExist) {
+                return response.status(404).json(
+                    {message: "Lesson not found"}
+                );
+            }
+
+            await db.collection("lesson").updateOne(
+                {id: lessonId},
+                {$set: body}
+            );
+
+            response.status(200).json(
+                {message: "Lesson updated Successfully"}
+            );
+
+        } catch (error) {
+            console.error("PUT ERROR:", error);
+            response.status(500).json("Update failed");
         }
     });
     return api;
