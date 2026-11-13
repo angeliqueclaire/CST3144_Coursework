@@ -91,6 +91,7 @@ let webstore = new Vue({
             }
         },
         submitForm: function() {
+            const form = document.getElementById("userInfo")
             if (this.validateForm()) {
             var orderData = {
                 firstName: this.user.firstName,
@@ -112,12 +113,12 @@ let webstore = new Vue({
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(orderData)
-            })
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-                alert(data.message);
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    alert(data.message);
 
                 for (var i = 0; i < webstore.cartSlots.length; i++) {
                     fetch("/api/lessons/" + webstore.cartSlots[i].id, {
@@ -142,6 +143,19 @@ let webstore = new Vue({
                         console.log("PUT Error:", error);
                     });
                 }
+                
+                webstore.user.email = '';
+                webstore.user.firstName = '';
+                webstore.user.lastName = '';
+                webstore.user.phone = '';
+
+                webstore.order.country = '';
+                webstore.order.address = '';
+                webstore.order.city = '';
+                webstore.order.postalCode = '';
+
+                webstore.cart = [];
+
                 webstore.showProduct = true;
             })
             

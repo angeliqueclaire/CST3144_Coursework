@@ -10,5 +10,31 @@
             3
         ],
         "_id": "6af743099d06b9b70aab996b"
+    },
+    {
+        "Name": "Angelique Deguzman",
+        "phone": "1234567890",
+        "postalCode": "12345",
+        "lessonIDs": [
+            1001,
+            1002
+        ],
+        "numOfSpaces": [
+            1,
+            1
+        ],
+        "_id": "6af74646a4e3150a4eeafca6"
+    },
+    {
+        "Name": "Angelique Deguzman",
+        "phone": "1234567890",
+        "postalCode": "12345",
+        "lessonIDs": [
+            1001
+        ],
+        "numOfSpaces": [
+            3
+        ],
+        "_id": "6af748cbc7e8e4718752e6b8"
     }
 ]
